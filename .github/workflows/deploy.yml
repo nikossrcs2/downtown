@@ -1,0 +1,47 @@
+name: Deploy to GitHub Pages
+
+on:
+  # ── Auto-deploy every 6 hours so the griefers list and any
+  #    content changes go live even without a manual push ──
+  schedule:
+    - cron: '17 */6 * * *'
+
+  # ── Also deploy when someone pushes to main ──
+  push:
+    branches: [main]
+
+  # ── Let you trigger a deploy manually from the Actions tab ──
+  workflow_dispatch:
+
+# Grant GITHUB_TOKEN the permissions needed to deploy
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Only one deploy at a time — if a new run fires, cancel the old one
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
