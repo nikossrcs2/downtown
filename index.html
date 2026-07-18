@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark light">
+  <title>Downtown — A Creative Town on 2b2d</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <style>
+    /* ── Color scheme ── */
+    :root {
+      --page-bg: #f5f5f7;
+      --text-primary: #1d1d1f;
+      --text-secondary: #6e6e73;
+      --text-tertiary: #8e8e93;
+      --section-alt: #ffffff;
+      --card-bg: #f5f5f7;
+      --card-img-bg: #e8e8ec;
+      --border: #e8e8ec;
+      --nav-bg: rgba(245,245,247,0.8);
+      --nav-border: rgba(0,0,0,0.06);
+      --nav-link: #6e6e73;
+      --nav-link-hover: #1d1d1f;
+      --accent-fill: #1d1d1f;
+      --accent-text: #ffffff;
+      --grid-line: rgba(0,0,0,0.04);
+      --griefer-icon-bg: #fcedec;
+      --griefer-icon-color: #d43b3b;
+      --hero-s1: #2d1b4e;
+      --hero-s2: #6e3b52;
+      --hero-s3: #c8856a;
+      --hero-s4: #ede4df;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --page-bg: #000000;
+        --text-primary: #f5f5f7;
+        --text-secondary: #98989d;
+        --text-tertiary: #636366;
+        --section-alt: #1c1c1e;
+        --card-bg: #1c1c1e;
+        --card-img-bg: #2c2c2e;
+        --border: #2c2c2e;
+        --nav-bg: rgba(0,0,0,0.8);
+        --nav-border: rgba(255,255,255,0.08);
+        --nav-link: #98989d;
+        --nav-link-hover: #f5f5f7;
+        --accent-fill: #f5f5f7;
+        --accent-text: #1d1d1f;
+        --grid-line: rgba(255,255,255,0.04);
+        --griefer-icon-bg: rgba(212,59,59,0.2);
+        --griefer-icon-color: #ff6b6b;
+        --hero-s1: #0d0520;
+        --hero-s2: #2a1230;
+        --hero-s3: #4a1e28;
+        --hero-s4: #1c1c1e;
+      }
+    }
+
+    /* manual override via data-theme on <html> */
+    html[data-theme="dark"] {
+      --page-bg: #000000;
+      --text-primary: #f5f5f7;
+      --text-secondary: #98989d;
+      --text-tertiary: #636366;
+      --section-alt: #1c1c1e;
+      --card-bg: #1c1c1e;
+      --card-img-bg: #2c2c2e;
+      --border: #2c2c2e;
+      --nav-bg: rgba(0,0,0,0.8);
+      --nav-border: rgba(255,255,255,0.08);
+      --nav-link: #98989d;
+      --nav-link-hover: #f5f5f7;
+      --accent-fill: #f5f5f7;
+      --accent-text: #1d1d1f;
+      --grid-line: rgba(255,255,255,0.04);
+      --griefer-icon-bg: rgba(212,59,59,0.2);
+      --griefer-icon-color: #ff6b6b;
+      --hero-s1: #0d0520;
+      --hero-s2: #2a1230;
+      --hero-s3: #4a1e28;
+      --hero-s4: #1c1c1e;
+    }
+
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      background: var(--page-bg);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    /* ── Typography ── */
+    h1, h2, h3 { font-weight: 700; letter-spacing: -0.02em; }
+    h1 { font-size: clamp(2.8rem, 7vw, 5rem); line-height: 1.05; }
+    h2 { font-size: clamp(2rem, 4vw, 3rem); line-height: 1.15; margin-bottom: 0.5em; }
+    h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); line-height: 1.3; }
+    p { color: var(--text-secondary); }
+    a { color: inherit; text-decoration: none; }
+
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
+      background: var(--nav-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--nav-border);
+      transition: background 0.3s, border-color 0.3s;
+    }
+    nav .container {
+      display: flex; justify-content: space-between; align-items: center;
+      height: 52px;
+    }
+    nav .logo { font-weight: 600; font-size: 0.95rem; letter-spacing: -0.01em; }
+    nav .logo span { color: var(--text-secondary); }
+    nav .nav-right { display: flex; align-items: center; gap: 28px; }
+    nav ul { display: flex; gap: 28px; list-style: none; }
+    nav ul a {
+      font-size: 0.8rem; font-weight: 500; color: var(--nav-link);
+      transition: color 0.2s; letter-spacing: 0.01em;
+    }
+    nav ul a:hover { color: var(--nav-link-hover); }
+
+    /* Theme toggle button */
+    .theme-toggle {
+      background: none; border: none; cursor: pointer;
+      font-size: 1.1rem; line-height: 1; padding: 4px 6px;
+      color: var(--nav-link);
+      transition: color 0.2s, transform 0.2s;
+      border-radius: 8px;
+    }
+    .theme-toggle:hover { color: var(--nav-link-hover); transform: scale(1.1); }
+    .theme-toggle .icon-light,
+    .theme-toggle .icon-dark { display: none; }
+    html[data-theme="dark"] .theme-toggle .icon-dark { display: inline; }
+    html[data-theme="dark"] .theme-toggle .icon-light { display: none; }
+    :root .theme-toggle .icon-light { display: inline; }
+    :root .theme-toggle .icon-dark { display: none; }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) .theme-toggle .icon-dark { display: inline; }
+      :root:not([data-theme="light"]) .theme-toggle .icon-light { display: none; }
+    }
+
+    /* ── Hero ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      /* dusk gradient: deep lavender -> warm terracotta -> page bg */
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 31px, var(--grid-line) 31px, var(--grid-line) 32px),
+        repeating-linear-gradient(90deg, transparent, transparent 31px, var(--grid-line) 31px, var(--grid-line) 32px),
+        linear-gradient(180deg, var(--hero-s1) 0%, var(--hero-s2) 30%, var(--hero-s3) 55%, var(--hero-s4) 80%, var(--page-bg) 100%);
+      background-blend-mode: normal;
+      transition: background-image 0.3s;
+    }
+    .hero-content { max-width: 740px; }
+    .hero .badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.15); color: #fff;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 0.05em;
+      padding: 6px 16px; border-radius: 20px;
+      margin-bottom: 24px;
+      text-transform: uppercase;
+    }
+    .hero h1 { margin-bottom: 20px; color: #fff; }
+    .hero .subtitle {
+      font-size: clamp(1.1rem, 2vw, 1.4rem);
+      color: rgba(255,255,255,0.7);
+      max-width: 580px; margin: 0 auto 36px;
+      font-weight: 400;
+    }
+    .hero .cta-group { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .hero .btn {
+      display: inline-block;
+      padding: 14px 36px;
+      border-radius: 980px;
+      font-size: 0.95rem; font-weight: 600;
+      transition: all 0.25s cubic-bezier(0.25, 0.1, 0.25, 1);
+      cursor: pointer;
+    }
+    .hero .btn-primary {
+      background: #fff; color: #1d1d1f;
+    }
+    .hero .btn-primary:hover { background: rgba(255,255,255,0.85); transform: scale(1.02); }
+    .hero .btn-secondary {
+      background: transparent; color: #fff;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+    .hero .btn-secondary:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.5); }
+
+    /* ── Section Shared ── */
+    section { padding: 100px 0; transition: background 0.3s; }
+    section:nth-child(even) { background: var(--section-alt); }
+    .section-label {
+      display: inline-block;
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--text-tertiary);
+      margin-bottom: 12px;
+    }
+    .section-intro {
+      font-size: 1.15rem; color: var(--text-secondary);
+      max-width: 600px; margin-bottom: 50px;
+    }
+
+    /* ── About ── */
+    #about p { font-size: 1.1rem; max-width: 640px; margin-bottom: 20px; }
+    #about .stats {
+      display: flex; gap: 48px; margin-top: 40px; flex-wrap: wrap;
+    }
+    #about .stat h3 { font-size: 2rem; margin-bottom: 2px; }
+    #about .stat p { font-size: 0.85rem; margin-bottom: 0; color: var(--text-tertiary); }
+
+    /* ── Rules ── */
+    .rules-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 8px;
+    }
+    .rule-card {
+      background: var(--card-bg);
+      border-radius: 18px;
+      padding: 32px;
+      transition: transform 0.25s cubic-bezier(0.25, 0.1, 0.25, 1), background 0.3s;
+    }
+    .rule-card:hover { transform: translateY(-2px); }
+    .rule-card .icon { font-size: 1.6rem; margin-bottom: 12px; display: block; }
+    .rule-card h3 { margin-bottom: 4px; }
+    .rule-card p { font-size: 0.95rem; margin-bottom: 0; }
+
+    /* ── Gallery ── */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 28px;
+    }
+    .gallery-card {
+      background: var(--card-bg);
+      border-radius: 18px;
+      overflow: hidden;
+      transition: transform 0.25s cubic-bezier(0.25, 0.1, 0.25, 1), box-shadow 0.3s, background 0.3s;
+    }
+    .gallery-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px -8px rgba(0,0,0,0.32); }
+    .gallery-card figure { margin: 0; }
+    .gallery-card img {
+      width: 100%; height: 260px; object-fit: cover;
+      display: block; background: var(--card-img-bg);
+    }
+    .gallery-card figcaption {
+      padding: 24px 24px 28px;
+    }
+    .gallery-card figcaption h3 { margin-bottom: 4px; }
+    .gallery-card figcaption p { font-size: 0.9rem; margin-bottom: 0; }
+
+    /* ── Griefers ── */
+    .griefer-list { margin-top: 24px; }
+    .griefer-entry {
+      display: flex; align-items: center; gap: 16px;
+      padding: 18px 24px;
+      background: var(--card-bg);
+      border-radius: 14px;
+      margin-bottom: 12px;
+      transition: transform 0.2s, background 0.3s;
+    }
+    .griefer-entry:hover { transform: translateX(6px); }
+    .griefer-entry .icon {
+      width: 36px; height: 36px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+    .griefer-entry .icon.griefer { background: var(--griefer-icon-bg); color: var(--griefer-icon-color); }
+    .griefer-entry .name { font-weight: 600; font-size: 1.05rem; }
+    .griefer-entry .reason { font-size: 0.9rem; color: var(--text-secondary); }
+    .empty-state {
+      padding: 48px; text-align: center;
+      background: var(--card-bg); border-radius: 18px; color: var(--text-secondary);
+      font-size: 1.05rem; transition: background 0.3s;
+    }
+
+    /* ── FAQ ── */
+    .faq-list { margin-top: 8px; }
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+      padding: 24px 0;
+      transition: border-color 0.3s;
+    }
+    .faq-item:first-child { border-top: 1px solid var(--border); }
+    .faq-item h3 { margin-bottom: 8px; font-size: 1.1rem; }
+    .faq-item h3::before { content: 'Q: '; color: var(--text-tertiary); font-weight: 500; }
+    .faq-item p { font-size: 0.95rem; margin-bottom: 0; }
+    .faq-item p::before { content: 'A: '; color: var(--text-primary); font-weight: 600; }
+
+    /* ── Apply ── */
+    .steps { counter-reset: step; }
+    .step {
+      counter-increment: step;
+      display: flex; gap: 20px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+      transition: border-color 0.3s;
+    }
+    .step:last-child { border-bottom: none; }
+    .step .num {
+      flex-shrink: 0;
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--accent-fill); color: var(--accent-text);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 0.95rem;
+      transition: background 0.3s, color 0.3s;
+    }
+    .step .text h3 { margin-bottom: 2px; }
+    .step .text p { font-size: 0.95rem; margin-bottom: 0; }
+    .step .text code {
+      background: var(--border); padding: 2px 10px; border-radius: 6px;
+      font-family: 'Inter', monospace; font-size: 0.9rem;
+      transition: background 0.3s;
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center; padding: 48px 24px;
+      font-size: 0.8rem; color: var(--text-tertiary);
+    }
+    footer .server-ip {
+      display: inline-block;
+      background: var(--accent-fill); color: var(--accent-text);
+      padding: 10px 24px; border-radius: 980px;
+      font-weight: 600; font-size: 0.9rem; margin-bottom: 12px;
+      letter-spacing: 0.02em;
+      transition: background 0.3s, color 0.3s;
+    }
+    footer p { margin-bottom: 0; }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      nav .nav-right { gap: 14px; }
+      nav ul { gap: 14px; }
+      nav ul li:nth-child(4),
+      nav ul li:nth-child(5) { display: none; }
+      section { padding: 64px 0; }
+      .gallery-grid { grid-template-columns: 1fr; }
+      #about .stats { gap: 28px; }
+      .rules-grid { grid-template-columns: 1fr; }
+      .hero { min-height: 90vh; padding: 100px 20px 60px; }
+    }
+    @media (max-width: 480px) {
+      nav .nav-right { gap: 10px; }
+      nav ul li:nth-child(3),
+      nav ul li:nth-child(4),
+      nav ul li:nth-child(5) { display: none; }
+      nav ul { gap: 10px; }
+    }
+
+    /* ── Fade-in animation ── */
+    .fade-in {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.7s cubic-bezier(0.25, 0.1, 0.25, 1),
+                  transform 0.7s cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ Nav ═══ -->
+  <nav>
+    <div class="container">
+      <div class="logo">Downtown<span>.</span></div>
+      <div class="nav-right">
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#rules">Rules</a></li>
+          <li><a href="#builds">Builds</a></li>
+          <li><a href="#griefers">Griefers</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#apply">Join</a></li>
+        </ul>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+          <span class="icon-light">&#9788;</span>
+          <span class="icon-dark">&#9790;</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══ Hero ═══ -->
+  <header class="hero">
+    <div class="hero-content">
+      <div class="badge">2b2d &middot; Creative Anarchy</div>
+      <h1>Downtown.</h1>
+      <p class="subtitle">
+        A curated creative town on the anarchy server 2b2d.
+        Build together. Share your work. Trust makes it possible.
+      </p>
+      <div class="cta-group">
+        <a href="#apply" class="btn btn-primary">Apply to join</a>
+        <a href="#builds" class="btn btn-secondary">See the builds</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══ About ═══ -->
+  <section id="about">
+    <div class="container fade-in">
+      <span class="section-label">About</span>
+      <h2>A town built on trust.</h2>
+      <p>
+        Downtown is a small, curated town on <strong>2b2d</strong> — a Creative
+        Anarchy server where anything is possible. Unlike the chaos of the
+        wider world, Downtown is a sanctuary: a handful of random, creative
+        builds from people who just want to make something cool together.
+      </p>
+      <p>
+        Entry is by trust only. You share your creations, you respect everyone
+        else&rsquo;s, and the town grows richer for it. No griefing. No drama.
+        Just builds.
+      </p>
+      <div class="stats">
+        <div class="stat">
+          <h3>2b2d</h3>
+          <p>creativeanarchy.net</p>
+        </div>
+        <div class="stat">
+          <h3>Trust</h3>
+          <p>invite-only access</p>
+        </div>
+        <div class="stat">
+          <h3>Creative</h3>
+          <p>anything goes</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Rules ═══ -->
+  <section id="rules">
+    <div class="container fade-in">
+      <span class="section-label">Rules</span>
+      <h2>Keep it simple.</h2>
+      <p class="section-intro">
+        Downtown works because everyone follows these. They&rsquo;re not
+        hard.
+      </p>
+      <div class="rules-grid">
+        <div class="rule-card">
+          <span class="icon">🔨</span>
+          <h3>Don&rsquo;t grief</h3>
+          <p>Don&rsquo;t break, steal, or modify someone else&rsquo;s build.
+            Not even a little. Not even &ldquo;as a joke.&rdquo;</p>
+        </div>
+        <div class="rule-card">
+          <span class="icon">🤝</span>
+          <h3>Don&rsquo;t be an asshole</h3>
+          <p>Be chill. Be helpful. If someone asks you to stop something,
+            stop. It&rsquo;s that easy.</p>
+        </div>
+        <div class="rule-card">
+          <span class="icon">⚡</span>
+          <h3>Cheats are for building</h3>
+          <p>Use what you have installed as an advantage for building, not
+            for ruining other people&rsquo;s days. Fly, schematic, clone
+            &mdash; just don&rsquo;t weaponise it.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Builds ═══ -->
+  <section id="builds">
+    <div class="container fade-in">
+      <span class="section-label">Gallery</span>
+      <h2>What people have built.</h2>
+      <p class="section-intro">
+        A growing collection of works from Downtown&rsquo;s members.
+      </p>
+
+      <div class="gallery-grid">
+        <figure class="gallery-card">
+          <img src="resources/cluttered_waypoint_for_baritone.png"
+               alt="Cluttered waypoint / spawn for Baritone navigation"
+               loading="lazy">
+          <figcaption>
+            <h3>Waypoint &amp; Spawn</h3>
+            <p>The first thing you see — a cluttered, lived-in spawn designed
+            to catch the eye of anyone flying by.</p>
+          </figcaption>
+        </figure>
+
+        <figure class="gallery-card">
+          <img src="resources/davids_house.png"
+               alt="David's house — a member-built home"
+               loading="lazy">
+          <figcaption>
+            <h3>David&rsquo;s House</h3>
+            <p>A warm, crafted home from one of Downtown&rsquo;s earliest
+            members. Every block placed with care.</p>
+          </figcaption>
+        </figure>
+
+        <figure class="gallery-card">
+          <img src="resources/lavenders_backrooms.png"
+               alt="Lavender's backrooms entrance"
+               loading="lazy">
+          <figcaption>
+            <h3>Lavender&rsquo;s Backrooms</h3>
+            <p>A surreal entrance to something deeper. Step inside — if you
+            dare.</p>
+          </figcaption>
+        </figure>
+      </div>
+
+      <p style="margin-top:36px;font-size:0.95rem;text-align:center;color:var(--text-tertiary);">
+        More builds appear as the town grows. &nbsp; Want yours here?
+        <a href="#apply" style="font-weight:600;color:var(--text-primary);">Apply &rarr;</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══ Griefers ═══ -->
+  <section id="griefers">
+    <div class="container fade-in">
+      <span class="section-label">Watch List</span>
+      <h2>Known griefers.</h2>
+      <p class="section-intro">
+        These players are <strong>not welcome</strong> in Downtown. If you see
+        them, steer clear and let a member know.
+      </p>
+
+      <div class="griefer-list" id="griefer-list">
+        <div class="empty-state">Loading...</div>
+      </div>
+
+      <p style="margin-top:28px;font-size:0.9rem;color:var(--text-tertiary);">
+        This list is maintained by the community. New entries are added when
+        verified by a Downtown member.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══ How to Apply ═══ -->
+  <section id="apply">
+    <div class="container fade-in">
+      <span class="section-label">Join</span>
+      <h2>Become a Downtown member.</h2>
+      <p class="section-intro">
+        Getting in is simple. No forms, no applications — just show up and
+        ask.
+      </p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="num">1</div>
+          <div class="text">
+            <h3>Join the server</h3>
+            <p>Connect to <code>creativeanarchy.net</code> in Minecraft
+            (Java Edition, version 1.21.x). This is the 2b2d Creative Anarchy
+            server.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="num">2</div>
+          <div class="text">
+            <h3>Find a member</h3>
+            <p>There is almost always a Downtown member online. Ask in chat:
+            <em>&ldquo;Who is a member of Downtown?&rdquo;</em> &mdash;
+            someone will vouch for you if you&rsquo;re genuine.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="num">3</div>
+          <div class="text">
+            <h3>No one around? Hop on Discord</h3>
+            <p>Run <code>/discord</code> in-game to get the Discord invite.
+            Join the server and ask in the general channel &mdash; someone
+            will help you out.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="num">4</div>
+          <div class="text">
+            <h3>Build something cool</h3>
+            <p>Once you&rsquo;re in, pick a spot and build. Share your work
+            with everyone. That&rsquo;s what Downtown is for.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FAQ ═══ -->
+  <section id="faq">
+    <div class="container fade-in">
+      <span class="section-label">FAQ</span>
+      <h2>Questions people ask.</h2>
+      <p class="section-intro">
+        Stuff that comes up in chat every other day.
+      </p>
+
+      <div class="faq-list">
+        <div class="faq-item">
+          <h3>Can I bring my own builds?</h3>
+          <p>If they grow legs, yes. We don&rsquo;t mind — everyone here
+            uses Meteor Client and other cheats to build stuff for fun
+            anyway. As long as it&rsquo;s yours, bring it.</p>
+        </div>
+
+        <div class="faq-item">
+          <h3>Is there a border?</h3>
+          <p>The Badlands hills are the natural border. If you remove them,
+            the border expands. In other words: no, there&rsquo;s no size
+            limit. Just expand your platform however much you need to.</p>
+        </div>
+
+        <div class="faq-item">
+          <h3>What happens if I grief?</h3>
+          <p>There are moderators in Downtown. You&rsquo;ll be banned from
+            the town and added to the <a href="#griefers">griefers list</a>
+            — permanently.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Footer ═══ -->
+  <footer>
+    <div class="container">
+      <div class="server-ip">creativeanarchy.net</div>
+      <p>Downtown — a curated creative town on 2b2d.</p>
+      <p>Not affiliated with Mojang AB or Microsoft.</p>
+    </div>
+  </footer>
+
+  <!-- ═══ Scripts ═══ -->
+  <script>
+    (function() {
+      // ── Theme toggle ──
+      const html = document.documentElement;
+      const btn = document.getElementById('theme-toggle');
+
+      function setTheme(theme) {
+        if (theme === 'dark') {
+          html.setAttribute('data-theme', 'dark');
+          localStorage.setItem('downtown-theme', 'dark');
+        } else {
+          html.removeAttribute('data-theme');
+          localStorage.setItem('downtown-theme', 'light');
+        }
+      }
+
+      // Restore saved preference
+      const saved = localStorage.getItem('downtown-theme');
+      if (saved) setTheme(saved);
+
+      btn.addEventListener('click', () => {
+        const isDark = html.getAttribute('data-theme') === 'dark';
+        setTheme(isDark ? 'light' : 'dark');
+      });
+
+      // ── Fade-in on scroll ──
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.1 });
+      document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+      // ── Dynamic griefer list from resources/griefers.json ──
+      async function loadGriefers() {
+        const container = document.getElementById('griefer-list');
+        if (!container) return;
+
+        try {
+          const res = await fetch('resources/griefers.json');
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          const data = await res.json();
+
+          if (!data.griefers || data.griefers.length === 0) {
+            container.innerHTML = '<div class="empty-state">None listed — town is peaceful.</div>';
+            return;
+          }
+
+          container.innerHTML = data.griefers.map(g => `
+            <div class="griefer-entry">
+              <div class="icon griefer">&#9888;</div>
+              <div>
+                <div class="name">${esc(g.name)}</div>
+                <div class="reason">${esc(g.reason)}</div>
+              </div>
+            </div>
+          `).join('');
+
+          if (data.updated) {
+            const note = container.parentElement?.querySelector('p:last-child');
+            if (note) {
+              note.textContent = 'Last updated ' + data.updated +
+                '. This list is maintained by the community. New entries are added when verified by a Downtown member.';
+            }
+          }
+        } catch (err) {
+          container.innerHTML = '<div class="empty-state">Could not load griefer list.</div>';
+          console.error('Failed to load griefers:', err);
+        }
+      }
+
+      function esc(s) {
+        const d = document.createElement('div');
+        d.textContent = s;
+        return d.innerHTML;
+      }
+
+      loadGriefers();
+    })();
+  </script>
+
+</body>
+</html>
