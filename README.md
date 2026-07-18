@@ -7,7 +7,7 @@ A clean, Apple-inspired homepage for the Downtown community — a curated creati
 1. Push this repo to GitHub.
 2. Go to **Settings → Pages**.
 3. Under "Branch", select `main` / root.
-4. Done — your site is live at `https://<username>.github.io/<repo>/`.
+4. Done — your site is live at `https://nikossrcs2.github.io/downtown/`.
 
 ## Structure
 
